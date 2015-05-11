@@ -14,56 +14,37 @@ void display(int n, int *arr[]){
 }
 
 int mat_reduce(int n, int *arr[]){
-    int i,j,lowerbound=0,min=0,flag,count;
+    int i,j,lowerbound=0,min=0;
     for(i=0;i<n;i++){
-        flag=0;
-        count=0;
+        min=arr[i][0];
+        for(j=1;j<n;j++){
+           	if(arr[i][j]<min){
+           		min=arr[i][j];
+           	}
+        }
         for(j=0;j<n;j++){
-            if(arr[i][j]==0){
-                flag=1;
-                break;
-            }
+            if(arr[i][j]!=1000){
+              	arr[i][j]-=min;
+           	}
         }
-        if(flag==0){
-            min=arr[i][0];
-            for(j=1;j<n;j++){
-            	if(arr[i][j]<min){
-            		min=arr[i][j];
-            	}
-            }
-            for(j=0;j<n;j++){
-                if(arr[i][j]!=1000){
-                	arr[i][j]-=min;
-            	}
-            }
-            if(min!=1000)
-            	lowerbound+=min;
-        }
+        if(min!=1000)
+          	lowerbound+=min;
     }
+
     for(j=0;j<n;j++){
-        flag=0;
-        count=0;
+        min=arr[0][j];
+        for(i=1;i<n;i++){
+          	if(arr[i][j]<min){
+           		min=arr[i][j];
+           	}
+        }
         for(i=0;i<n;i++){
-            if(arr[i][j]==0){
-                flag=1;
-                break;
-            }
+            if(arr[i][j]!=1000){
+              	arr[i][j]-=min;
+           	}
         }
-        if(flag==0){
-            min=arr[0][j];
-            for(i=1;i<n;i++){
-            	if(arr[i][j]<min){
-            		min=arr[i][j];
-            	}
-            }
-            for(i=0;i<n;i++){
-                if(arr[i][j]!=1000){
-                	arr[i][j]-=min;
-            	}
-            }
-            if(min!=1000)
-            	lowerbound+=min;
-        }
+        if(min!=1000)
+          	lowerbound+=min;
     }
     return lowerbound;
 }
@@ -82,7 +63,7 @@ int choose(int n, int *temp[], int *arr[], int u, int i, int low_bound){
 		temp[u][j]=1000;
 		temp[j][i]=1000;
 	}
-	temp[i][u]=1000;
+	temp[i][0]=1000;
 	//display(n,temp);
 	nlb=mat_reduce(n,temp);
 	printf("\nnlb is %d",nlb);
@@ -160,12 +141,13 @@ int main()
         		arr[i][j]=x;
         	}
         }
-    }/*
-    arr[0][0]=10,arr[0][1]=37,arr[0][2]=22,arr[0][3]=16;
-    arr[1][0]=17,arr[1][1]=36,arr[1][2]=37,arr[1][3]=6;
-    arr[2][0]=22,arr[2][1]=43,arr[2][2]=8,arr[2][3]=31;
-    arr[3][0]=44,arr[3][1]=24,arr[3][2]=20,arr[3][3]=47;
-    */
+    }
+    arr[0][0]=1000,arr[0][1]=20,arr[0][2]=30,arr[0][3]=10,arr[0][4]=11;
+    arr[1][0]=15,arr[1][1]=1000,arr[1][2]=16,arr[1][3]=4,arr[1][4]=2;
+    arr[2][0]=3,arr[2][1]=5,arr[2][2]=1000,arr[2][3]=2,arr[2][4]=4;
+    arr[3][0]=19,arr[3][1]=6,arr[3][2]=18,arr[3][3]=1000,arr[3][4]=3;
+    arr[4][0]=16,arr[4][1]=4,arr[4][2]=7,arr[4][3]=16,arr[4][4]=1000;
+
     display(n, arr);
     BandB(n,arr);
     return 0;
